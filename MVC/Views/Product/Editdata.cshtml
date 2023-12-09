@@ -1,0 +1,80 @@
+﻿@model List<Productdata>
+
+<h1>Create Product</h1>
+<hr />
+<div class="row" style="display:block;flex-direction:row">
+    <div class="col-md-4">
+        @foreach (var Model in Model)
+    {
+
+        <form id="submitdata">
+                <input id="ID" style="display:none" asp-for=@Model.Product.Id value=@Model.Product.Id class="form-control" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for=@Model.Product.Name class="control-label">Name</label>
+                <input id="Name" asp-for=@Model.Product.Name value=@Model.Product.Name class="form-control" />
+                <span asp-validation-for=@Model.Product.Name class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.Product.Description class="control-label"></label>
+                <input id="Description" asp-for=@Model.Product.Description class="form-control" />
+                <span asp-validation-for=@Model.Product.Description class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.Product.Category class="control-label">Category</label>
+                <input id="Category" asp-for=@Model.Product.Category class="form-control" />
+                <span asp-validation-for=@Model.Product.Category class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.Product.Price class="control-label">Price</label>
+                <input id="Price" asp-for=@Model.Product.Price class="form-control" />
+                <span asp-validation-for=@Model.Product.Price class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.Product.RoomNo class="control-label">RoomNo</label>
+                <input id="RoomNo" asp-for=@Model.Product.RoomNo class="form-control" />
+                <span asp-validation-for=@Model.Product.RoomNo class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                
+
+                <label asp-for=@Model.Images class="control-label">Images</label>
+                <input asp-for=@Model.imageFiles
+                  required id="imgInp" type="file" multiple accept="image/*" class="form-control" />
+                <span asp-validation-for=@Model.imageFiles class="text-danger"></span>
+                <p id="inpval" style="display:none"></p>
+                    <div id="thisimg">
+                @foreach (var image in Model.Images)
+                {
+                     <img  style="width:100%;height:200px;margin:30px" class="card-img-top" src="~/@image.ImageURL" alt="Image" />
+                            <input id="singleimage" style="display:none" value=@image.Id />
+                            <p id="p-tag" data-click="delsingleimage(@image.Id)">delete</p>
+                        }
+                    </div>
+                <div id="myimg" style="display:flex">
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="king"
+                @* type="submit" *@
+                       value=Submit
+                       class="btn btn-primary" />
+            </div>
+        </form>
+        }
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetData">Back to List</a>
+</div>
+@section Scripts {
+    <script src="~/js/editform.js"></script>
+
+    @{
+        <script src="~/js/deleteimage.js"></script>
+	<script src="~/js/Editform.js"></script>
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

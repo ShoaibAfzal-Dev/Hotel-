@@ -1,0 +1,30 @@
+﻿@model List<Productdata>
+<div style="display:flex">
+    @foreach (var pd in Model)
+    {
+        <div  style="width:400px; margin:50px">
+            <div class="image-slider" style="margin:30px;display:flex">
+                 @foreach (var image in pd.Images)
+                {
+                        <img style="width:100%;height:200px;margin:30px" class="card-img-top" src="~/@image.ImageURL" alt="Image" />
+                    
+                } 
+          </div>
+            <h2 class="card-title">@pd.Product.Name</h2>
+            <p class="card-subtitle mb-2 text-body-secondary">@pd.Product.Category</p>
+            <p class="card-text">@pd.Product.Description</p>
+            <label>Price:</label> <p>@pd.Product.Price</p>
+            <label>Room No:</label> <p>@pd.Product.RoomNo</p>
+            <a class="btn btn-primary" asp-action="Editdata" asp-route-id=@pd.Product.Id>Edit</a>
+            <a id="del" class="btn btn-primary" style="background-color:rebeccapurple;color:white">Delete</a>
+            
+             <input class="idto" 
+             style="display:none" 
+             value=@pd.Product.Id
+             />
+        </div>
+    }</div>
+
+@section Scripts{
+    <script src="~/js/deletedata.js"></script>
+            }

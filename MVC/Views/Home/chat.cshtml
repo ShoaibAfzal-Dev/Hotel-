@@ -1,0 +1,110 @@
+﻿ @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
+@{
+    var data = ViewBag.Chat;
+}
+@if(@HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "User")
+{
+    <div class="container mt-5">
+        <h1>Chat with Admin</h1>
+
+        <div class="chat-container mt-4">
+            @foreach (var d in ViewBag.Chat)
+            {
+                <div class="message-container mb-3">
+                    @if (d.SenderID == @HttpContextAccessor.HttpContext.Session.GetString("UserId"))
+                    {
+                        <div class="your-message text-white ">
+                            <div class="masg-item mb-0 text-end">
+                                <p class="xscdscd">@d.message </p>
+                            </div>
+
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="other-message text-left" >
+                            <p class="othr-msgh mb-0">@d.message</p>
+                        </div>
+                    }
+                </div>
+              
+
+            }
+            <div id="userChat" class="container"></div>
+        </div>
+    </div>
+    
+
+    
+
+
+    @* <form> *@
+    <div class="another-container mt-1">
+    <input id="messageInput" type="text" placeholder="Message" />
+    <button type="submit" id="sendButton">Send</button>
+    <ul id="messagesList"></ul>
+    </div>
+   @*  </form> *@
+    @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
+    <script src="~/js/user.js"></script>
+            }
+}
+else if(@HttpContextAccessor.HttpContext.Session.GetString("UserRole") == "admin")
+{
+    <p id="adminid" style="display:none">@HttpContextAccessor.HttpContext.Session.GetString("UserId")</p>
+    <h1 style="padding:20px">Admin chat Page</h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- User List -->
+                <div class="card">
+                    <div class="card-body kinghf">
+                        <h5 class="card-title">Users</h5>
+                        @foreach (var s in ViewBag.Chat)
+                        {
+                            <p class="username" data-user-id="@s.Id">@s.userName</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- Chat Containers -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Left Side Container -->
+                        <div class="card" style="background-color: red; color: white;">
+                            <div class="card-body " id="leftSideContainer">
+                                <!-- Left side chat content goes here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Right Side Container -->
+                        <div class="card" style="background-color: blue; color: white;">
+                            <div class="card-body " id="rightSideContainer">
+                                <!-- Right side chat content goes here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- My Container -->
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-body kinghf" id="myContainer">
+                        <!-- My chat content goes here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
+    <script src="~/js/adminjs.js"></script>
+  }
+} 
+   

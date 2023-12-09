@@ -1,0 +1,82 @@
+﻿@model MVC.Models.MyView
+
+<h1>Create Product</h1>
+<hr />
+<div class="row" style="display:block;flex-direction:row">
+    <div class="col-md-4">
+        <form  id="submitdata">
+            @* method="post" enctype="multipart/form-data" *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="form-group">
+                <label asp-for=@Model.Name class="control-label">Name</label>
+                <input id="Name" asp-for=@Model.Name class="form-control"  oninput=""  />
+                <span asp-validation-for=@Model.Name class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.Description class="control-label"></label>
+                <input id="Description" asp-for=@Model.Description class="form-control" />
+                <span asp-validation-for=@Model.Description class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                <label asp-for=@Model.Category class="control-label">Category</label>
+                <input id="Category" asp-for=@Model.Category class="form-control" />
+                <span asp-validation-for=@Model.Category class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.Price class="control-label">Price</label>
+                <input id="Price" asp-for=@Model.Price class="form-control" />
+                <span asp-validation-for=@Model.Price class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for=@Model.RoomNo class="control-label">RoomNo</label>
+                <input id="RoomNo" asp-for=@Model.RoomNo  class="form-control" />
+                <span asp-validation-for=@Model.RoomNo class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                <label asp-for=@Model.imageFiles class="control-label">Images</label>
+                <input asp-for=@Model.imageFiles 
+                       required id="imgInp" type="file" multiple  accept="image/*" class="form-control" />
+                <span asp-validation-for=@Model.imageFiles class="text-danger"></span>
+                <div id="myimg" style="display:flex">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="king" 
+                    @* type="submit" *@
+                    value=Submit
+                    class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetData">Back to List</a>
+</div>
+@section Scripts {
+    @{
+        <script src="~/js/form.js"></script>
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+@* <script src="~/js/form.js"></script> *@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+        $(":file").change(function () {
+            if (this.files && this.files[0]) {
+                for (var i = 0; i < this.files.length; i++) {
+                    var reader = new FileReader();
+                    reader.onload = imageIsLoaded;
+                    reader.readAsDataURL(this.files[i]);
+                }
+            }
+        });
+    });
+    function imageIsLoaded(e) {
+        $('#myimg').append('<img style="width:80px;height:80px ; margin:40px"  src=' + e.target.result + '>');
+    }
+   
+
+</script>
